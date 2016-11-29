@@ -21,7 +21,7 @@ function processEvent(event) {
     var sender = event.sender.id.toString();
 
     if ((event.message && event.message.text) || (event.postback && event.postback.payload)) {
-        var text = event.message ? event.message.text : event.postback.payload;
+        var text = 'hi';
         // Handle a text message from this sender
 
         if (!sessionIds.has(sender)) {
@@ -45,9 +45,7 @@ function processEvent(event) {
                     if (!Array.isArray(responseData.facebook)) {
                         try {
                             console.log('Response as formatted message');
-
-                            sendFBMessage(sender, responseData.facebook+""+sender);
-                            sendFBMessage(sender, "sender is  "+sender);
+                            sendFBMessage(sender, responseData.facebook);
                         } catch (err) {
                             sendFBMessage(sender, {text: err.message});
                         }
@@ -60,8 +58,7 @@ function processEvent(event) {
                                 }
                                 else {
                                     console.log('Response as formatted message');
-                                    sendFBMessage(sender, facebookMessage+""+sender, callback);
-                                    sendFBMessage(sender, "sender is "+sender, callback);
+                                    sendFBMessage(sender, facebookMessage, callback);
                                 }
                             } catch (err) {
                                 sendFBMessage(sender, {text: err.message}, callback);
@@ -76,7 +73,6 @@ function processEvent(event) {
 
                     async.eachSeries(splittedText, (textPart, callback) => {
                         sendFBMessage(sender, {text: textPart}, callback);
-                        sendFBMessage(sender, "sender is "+sender, callback);
                     });
                 }
 
